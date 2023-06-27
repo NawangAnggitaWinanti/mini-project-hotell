@@ -44,7 +44,7 @@ public class TransactionBookingService {
         transactionBookingRepository.save(transactionBooking);
         return transactionBooking;
     }
-
+    //History
     public List<TransactionBooking> getAllTransactionBooking() throws Exception{
         return (List<TransactionBooking>)transactionBookingRepository.findAll();
     }
