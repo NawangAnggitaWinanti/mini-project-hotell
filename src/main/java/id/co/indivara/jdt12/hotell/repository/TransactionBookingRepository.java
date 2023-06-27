@@ -22,5 +22,6 @@ public interface TransactionBookingRepository extends JpaRepository<TransactionB
     String findBookingStatus(@Param("roomId") String roomId);
 
     List<TransactionBooking> findAllByRoom(Room room);
+
 }
 

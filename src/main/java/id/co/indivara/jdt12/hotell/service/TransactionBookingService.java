@@ -49,6 +49,6 @@ public class TransactionBookingService {
     }
 
     public List<TransactionBooking> getAllTransactionBooking() throws Exception{
-        return transactionBookingRepository.findAll();
+        return (List<TransactionBooking>)transactionBookingRepository.findAll();
     }
 }

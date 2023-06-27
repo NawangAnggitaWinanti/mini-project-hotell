@@ -34,7 +34,7 @@ public class TransactionBooking extends BaseEntity {
     @Column(name = "customer_id")
     private String customerId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "customer_id", updatable = false, insertable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
@@ -45,7 +45,7 @@ public class TransactionBooking extends BaseEntity {
     private String roomId;
 
     @JoinColumn(name = "room_id", updatable = false, insertable = false)
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Room room;
 
