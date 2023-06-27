@@ -1,9 +1,8 @@
 package id.co.indivara.jdt12.hotell.controller;
 
 
-import id.co.indivara.jdt12.hotell.entity.Customer;
+
 import id.co.indivara.jdt12.hotell.entity.Room;
-import id.co.indivara.jdt12.hotell.model.InvoiceHotel;
 import id.co.indivara.jdt12.hotell.repository.RoomRepository;
 import id.co.indivara.jdt12.hotell.responsemessage.ResponseMessage;
 import id.co.indivara.jdt12.hotell.service.RoomService;
@@ -73,9 +72,5 @@ public class RoomController {
             responseMessage.setPesan("Data Gagal Dihapus!!!"+ex.getMessage());
         }
         return responseMessage;
-    }
-    @GetMapping("/historytransaction/{roomId}")
-    public InvoiceHotel getInvoice (@PathVariable("roomId") String roomId) throws Exception {
-        return roomService.invoiceHotel(roomId);
     }
 }

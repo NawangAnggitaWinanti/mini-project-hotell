@@ -1,8 +1,6 @@
 package id.co.indivara.jdt12.hotell.service;
 
 import id.co.indivara.jdt12.hotell.entity.Room;
-import id.co.indivara.jdt12.hotell.entity.TransactionBooking;
-import id.co.indivara.jdt12.hotell.model.InvoiceHotel;
 import id.co.indivara.jdt12.hotell.repository.RoomRepository;
 import id.co.indivara.jdt12.hotell.repository.TransactionBookingRepository;
 import id.co.indivara.jdt12.hotell.responsemessage.ResponseMessage;
@@ -39,12 +37,6 @@ public class RoomService {
     public void deleteRoom(String roomId){
 
         roomRepository.deleteById(roomId);
-    }
-    //Transactional Invoice
-    public InvoiceHotel invoiceHotel(String roomId) throws Exception{
-        Room room = roomRepository.findById(roomId).orElseThrow(()-> new Exception("Room Tidak ditemukan!!!"));
-        List<TransactionBooking> transactionBookings = transactionBookingRepository.findAllByRoom(room);
-        return new InvoiceHotel(room, transactionBookings);
     }
 
 }

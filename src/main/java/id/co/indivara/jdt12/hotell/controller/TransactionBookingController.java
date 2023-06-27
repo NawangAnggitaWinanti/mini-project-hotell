@@ -34,10 +34,7 @@ public class TransactionBookingController {
         }
         return responseMessage;
     }
-//    @PutMapping("/transaction/{id}")
-//    public TransactionBooking updateBooking(@RequestBody TransactionBooking transactionBooking) throws Exception{
-//        return transactionBookingService.updateBooking(transactionBooking);
-//    }
+    //History
     @GetMapping("/transaction/all")
     public List<TransactionBooking> getAllTransactionBooking() throws Exception{
         return transactionBookingService.getAllTransactionBooking();
