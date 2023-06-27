@@ -26,10 +26,10 @@ public class TransactionBookingService {
 
     @Transactional
     public TransactionBooking createBooking(TransactionBooking transactionBooking) throws Exception {
-        Room room= roomRepository.findById(transactionBooking.getRoomId()).orElseThrow(() -> new Exception("Status Booking Room Tidak Ditemukan!"));
+        Room room= roomRepository.findById(transactionBooking.getRoomId()).orElseThrow(() -> new Exception("Room Tidak Ditemukan!"));
         String statusBooking = transactionBookingRepository.findBookingStatus(room.getRoomId());
         if (statusBooking != null && statusBooking.equalsIgnoreCase("no")) {
-            throw new Exception("Status Room Tidak Dapat ditentukan!!");
+            throw new Exception("Status Room Telah diBooking!!");
         }
         Customer customer = customerRepository.findById(transactionBooking.getCustomerId()).orElseThrow(()-> new Exception("Customer Tidak Ditemukan!!"));
         transactionBooking.setCustomer(customer);
@@ -44,6 +44,7 @@ public class TransactionBookingService {
         transactionBookingRepository.save(transactionBooking);
         return transactionBooking;
     }
+
     //History
     public List<TransactionBooking> getAllTransactionBooking() throws Exception{
         return (List<TransactionBooking>)transactionBookingRepository.findAll();

@@ -23,5 +23,6 @@ public interface TransactionBookingRepository extends JpaRepository<TransactionB
 
     List<TransactionBooking> findAllByRoom(Room room);
 
+
 }
 
