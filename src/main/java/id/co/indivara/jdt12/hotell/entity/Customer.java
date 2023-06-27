@@ -20,9 +20,9 @@ import javax.persistence.*;
 public class Customer extends BaseEntity{
     @Id
     @Column(name = "customer_id")//Membuat kolom dengan nama customer id pada database
-    @GeneratedValue(generator = "system-uuid")//perintah agar id auto increment
+    @GeneratedValue(generator = "system-uuid")//agar lebih safety, digenerate secara acak/random
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private Integer customerId;
+    private String customerId;
 
     @Column(name = "customer_name")
     private String name;

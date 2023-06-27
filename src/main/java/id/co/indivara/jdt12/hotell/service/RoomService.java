@@ -1,7 +1,11 @@
 package id.co.indivara.jdt12.hotell.service;
 
 import id.co.indivara.jdt12.hotell.entity.Room;
+import id.co.indivara.jdt12.hotell.entity.TransactionBooking;
+import id.co.indivara.jdt12.hotell.model.InvoiceHotel;
 import id.co.indivara.jdt12.hotell.repository.RoomRepository;
+import id.co.indivara.jdt12.hotell.repository.TransactionBookingRepository;
+import id.co.indivara.jdt12.hotell.responsemessage.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,21 +16,19 @@ import java.util.Objects;
 public class RoomService {
     @Autowired
     RoomRepository roomRepository;
+    @Autowired
+    TransactionBookingRepository transactionBookingRepository;
     //Post /rooms
-    public String createRoom(Room room) {
-        Room room1 = roomRepository.save(room);
-        if (Objects.nonNull(room1) && room1.getRoomId() != null) {
-            return "Room " + room1.getRoomId() + " Berhasil Dibuat";
-        } else {
-            return "Gagal Insert Room";
-        }
+    public ResponseMessage createRoom(Room room) {
+        Room rm = roomRepository.save(room);
+        return new ResponseMessage(200, "Room berhasil dibuat!!!");
     }
     //GET /rooms
     public List<Room> getAllRoom() {
         return roomRepository.findAll();
     }
     //PUT /room/{id}
-    public String updateRoom(Room room, Integer roomId){
+    public String updateRoom(Room room, String roomId){
         Room room1 = roomRepository.findById(roomId).get();
         if (Objects.nonNull(room.getRoomType()) && !"".equalsIgnoreCase(room.getRoomType())){
             room1.setRoomType(room.getRoomType());
@@ -34,9 +36,15 @@ public class RoomService {
         return "Tipe Kamar Gagal diupdate";
     }
     //DELETE /room/{id}
-    public void deleteRoom(Integer roomId){
+    public void deleteRoom(String roomId){
 
         roomRepository.deleteById(roomId);
+    }
+    //Transactional Invoice
+    public InvoiceHotel invoiceHotel(String roomId) throws Exception{
+        Room room = roomRepository.findById(roomId).orElseThrow(()-> new Exception("Room Tidak ditemukan!!!"));
+        List<TransactionBooking> transactionBookings = transactionBookingRepository.findAllByRoom(room);
+        return new InvoiceHotel(room, transactionBookings);
     }
 
 }

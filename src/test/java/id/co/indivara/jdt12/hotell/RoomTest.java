@@ -27,7 +27,7 @@ import java.util.List;
 
 class RoomTest {
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mockMvc;//MockMvc fasilitas untuk membantu proses testing di Junit
     @Autowired
     RoomService roomService;
     @Autowired
@@ -36,7 +36,7 @@ class RoomTest {
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(RoomController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(roomController).build();
     }
     @Test
     public void getAllRoom() throws Exception {

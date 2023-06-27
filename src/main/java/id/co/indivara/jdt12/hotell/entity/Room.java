@@ -20,7 +20,7 @@ public class Room extends BaseEntity {
     @Column(name = "room_id")
     @GeneratedValue(generator = "system-uuid")//perintah agar id auto increment
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private Integer roomId;
+    private String roomId;
 
     @Column(name = "room_number")
     private Integer roomNumber;

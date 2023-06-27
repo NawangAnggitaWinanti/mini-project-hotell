@@ -3,6 +3,7 @@ package id.co.indivara.jdt12.hotell.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -17,18 +18,17 @@ import javax.persistence.*;
 public class Invoice extends BaseEntity{
     @Id
     @Column(name = "invoice_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer invoiceId;
+    @GeneratedValue(generator = "system-uuid")//agar lebih safety, digenerate secara acak/random
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String invoiceId;
 
     //JOIN transactionBooking class dengan bookingId sebagai fk
     @Column(name = "booking_id")
-    private Integer bookingId;
+    private String bookingId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id",updatable = false, insertable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private TransactionBooking transactionBooking;
 
-    @Column(name = "total")
-    private Integer total;
 }

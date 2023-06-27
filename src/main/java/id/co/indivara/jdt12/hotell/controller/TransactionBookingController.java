@@ -1,13 +1,15 @@
 package id.co.indivara.jdt12.hotell.controller;
 
 import id.co.indivara.jdt12.hotell.entity.TransactionBooking;
+import id.co.indivara.jdt12.hotell.repository.TransactionBookingRepository;
+import id.co.indivara.jdt12.hotell.responsemessage.ResponseMessage;
 import id.co.indivara.jdt12.hotell.service.CustomerService;
 import id.co.indivara.jdt12.hotell.service.RoomService;
 import id.co.indivara.jdt12.hotell.service.TransactionBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class TransactionBookingController {
@@ -18,13 +20,27 @@ public class TransactionBookingController {
     @Autowired
     private RoomService roomService;
 
+    //Bisa diakses Cust dan Admin
     @PostMapping("/transaction")
-    public TransactionBooking createBooking(TransactionBooking transactionBooking) throws Exception{
-        return transactionBookingService.createBooking(transactionBooking);
+    public ResponseMessage createBooking(@RequestBody TransactionBooking transactionBooking){
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            transactionBookingService.createBooking(transactionBooking);
+            responseMessage.setKode(200);
+            responseMessage.setPesan("Booking Berhasil!");
+        }catch (Exception ex) {
+            responseMessage.setKode(201);
+            responseMessage.setPesan("Booking Gagal"+ex.getMessage());
+        }
+        return responseMessage;
     }
-    @PutMapping("/transaction/{id}")
-    public TransactionBooking updateBooking(TransactionBooking transactionBooking){
-        return transactionBooking;
+//    @PutMapping("/transaction/{id}")
+//    public TransactionBooking updateBooking(@RequestBody TransactionBooking transactionBooking) throws Exception{
+//        return transactionBookingService.updateBooking(transactionBooking);
+//    }
+    @GetMapping("/transaction/all")
+    public List<TransactionBooking> getAllTransactionBooking() throws Exception{
+        return transactionBookingService.getAllTransactionBooking();
     }
 
 }

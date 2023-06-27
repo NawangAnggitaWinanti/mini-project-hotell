@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -25,12 +26,13 @@ import java.util.TreeSet;
 public class TransactionBooking extends BaseEntity {
     @Id
     @Column(name = "booking_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer bookingId;
+    @GeneratedValue(generator = "system-uuid")//agar lebih safety, digenerate secara acak/random
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String bookingId;
 
     //JOIN customer class DENGAN class_id sebagai fk
     @Column(name = "customer_id")
-    private Integer customerId;
+    private String customerId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", updatable = false, insertable = false)
@@ -40,17 +42,13 @@ public class TransactionBooking extends BaseEntity {
 
     //JOIN room class DENGAN room_id sebagai fk
     @Column(name = "room_id")
-    private Integer roomId;
+    private String roomId;
 
     @JoinColumn(name = "room_id", updatable = false, insertable = false)
-    @OneToMany(cascade=CascadeType.ALL, targetEntity=Room.class)
+    @OneToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Room> roomList;
+    private Room room;
 
-
-    @Column(name = "booking_date")
-    @JsonFormat(pattern = "yyy-MM-dd HH:mm:ss", timezone = "UTC")
-    private Instant bookingDate;
 
     @Column(name = "checkin")
     @JsonFormat(pattern = "yyy-MM-dd HH:mm:ss", timezone = "UTC")

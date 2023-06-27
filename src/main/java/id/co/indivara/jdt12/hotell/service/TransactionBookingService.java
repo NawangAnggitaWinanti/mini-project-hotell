@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -34,10 +35,8 @@ public class TransactionBookingService {
     //Bagian admin
     public TransactionBooking tb(TransactionBooking transactionBooking) throws Exception{
         Customer customer = customerRepository.findById(transactionBooking.getCustomerId()).orElseThrow(()-> new Exception("Customer Tidak Ditemukan!!"));
-        //transactionBooking.setAdmin(admin);
         transactionBooking.setCustomer(customer);
-        //transactionBooking.setCreatedBy(admin.getNameAdmin());
-        //transactionBooking.setLastUpdateBy(admin.getNameAdmin());
+        transactionBooking.setRoom(room);
         transactionBooking.setCheckIn(transactionBooking.getCheckIn());
         transactionBooking.setCheckOut(transactionBooking.getCheckOut());
         if (Instant.now().isBefore(transactionBooking.getCheckIn())){
@@ -48,13 +47,8 @@ public class TransactionBookingService {
         transactionBookingRepository.save(transactionBooking);
         return transactionBooking;
     }
-    @Transactional
-    public TransactionBooking updateBooking(TransactionBooking transactionBooking) throws Exception{
-        TransactionBooking tb = transactionBookingRepository.findById(transactionBooking.getBookingId()).orElseThrow(()-> new RuntimeException("Tidak Dapat Ditemukan!!!"));
-        if (Objects.nonNull(transactionBooking.getBookingStatus())){
-            tb.setBookingStatus(transactionBooking.getBookingStatus());
-        }
-        transactionBookingRepository.save(tb);
-        return transactionBooking;
+
+    public List<TransactionBooking> getAllTransactionBooking() throws Exception{
+        return transactionBookingRepository.findAll();
     }
 }

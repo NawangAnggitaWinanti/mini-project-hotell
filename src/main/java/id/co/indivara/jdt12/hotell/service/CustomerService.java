@@ -2,6 +2,7 @@ package id.co.indivara.jdt12.hotell.service;
 
 import id.co.indivara.jdt12.hotell.entity.Customer;
 import id.co.indivara.jdt12.hotell.repository.CustomerRepository;
+import id.co.indivara.jdt12.hotell.responsemessage.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,9 @@ public class CustomerService {
     CustomerRepository customerRepository;
     //POST: /customers
     //POST: /customers/registrasi
-    public String createCustomer(Customer customer) {
+    public ResponseMessage createCustomer(Customer customer){
         Customer cust = customerRepository.save(customer);
-        if (Objects.nonNull(cust) && cust.getCustomerId() != null) {
-            return "Customer " + cust.getCustomerId() + " Berhasil Dibuat";
-        } else {
-            return "Gagal Insert Customer";
-        }
+        return new ResponseMessage(200, "Customer berhasil dibuat!!!");
     }
     //GET /customers
     public List<Customer> getAllCustomer() {
@@ -28,15 +25,17 @@ public class CustomerService {
         return customerRepository.findAll();
     }
     //PUT /customer/{id}
-    public String updateCustomer(Customer customer, Integer customerId){
-        Customer cust = customerRepository.findById(customerId).get();
-        if (Objects.nonNull(customer.getEmail()) && !"".equalsIgnoreCase(customer.getEmail())){
-            cust.setEmail(customer.getEmail());
-        }
-        return "Gagal update";
+    public ResponseMessage updateCustomer(Customer customer, String customerId) throws Exception{
+        Customer cust = customerRepository.findById(customerId).orElseThrow(()->new Exception("Tidak ada id customer"));
+        cust.setName(customer.getName());
+        cust.setNoHp(customer.getNoHp());
+        cust.setEmail(customer.getEmail());
+        cust.setNik(customer.getNik());
+        cust.setAddress(customer.getAddress());
+        return new ResponseMessage(200,"Berhasil Update");
     }
     //DELETE /customer/{id}
-    public void deleteCustomer(Integer customerId){
+    public void deleteCustomer(String customerId){
 
         customerRepository.deleteById(customerId);
     }
