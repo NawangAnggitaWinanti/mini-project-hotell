@@ -15,10 +15,6 @@ import java.util.List;
 public class TransactionBookingController {
     @Autowired
     private TransactionBookingService transactionBookingService;
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private RoomService roomService;
 
     //Bisa diakses Cust dan Admin
     @PostMapping("/transaction")

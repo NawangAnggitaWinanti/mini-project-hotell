@@ -40,18 +40,18 @@ class RoomTest {
     }
     @Test
     public void getAllRoom() throws Exception {
-        List<Room> roomChecker = RoomService.getAllRoom();
+        List<Room> roomChecker = roomService.getAllRoom();
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/room")
+                        .get("/rooms")
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andDo(result -> {
-                    List<Room> accounts = MapperConvert.getAllData(result.getResponse().getContentAsString(), Room.class);
-                    Assertions.assertNotNull(accounts);
-                    Assertions.assertEquals(roomChecker.get(0).getRoomId(), accounts.get(0).getRoomId());
+                    List<Room> rooms = MapperConvert.getAllData(result.getResponse().getContentAsString(), Room.class);
+                    Assertions.assertNotNull(rooms);
+                    Assertions.assertEquals(roomChecker.get(0).getRoomType(), rooms.get(0).getRoomType());
                 })
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].customertId").isNotEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].roomId").isNotEmpty());
     }
 }

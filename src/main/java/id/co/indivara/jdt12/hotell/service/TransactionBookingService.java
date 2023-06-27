@@ -20,20 +20,17 @@ public class TransactionBookingService {
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
+    RoomRepository roomRepository;
+    @Autowired
     TransactionBookingRepository transactionBookingRepository;
 
     @Transactional
     public TransactionBooking createBooking(TransactionBooking transactionBooking) throws Exception {
-        TransactionBooking tb= transactionBookingRepository.findById(transactionBooking.getRoomId()).orElseThrow(() -> new Exception("Status Booking Room Tidak Ditemukan!"));
-        String statusBooking = transactionBookingRepository.findBookingStatus(tb.getBookingId());
+        Room room= roomRepository.findById(transactionBooking.getRoomId()).orElseThrow(() -> new Exception("Status Booking Room Tidak Ditemukan!"));
+        String statusBooking = transactionBookingRepository.findBookingStatus(room.getRoomId());
         if (statusBooking != null && statusBooking.equalsIgnoreCase("no")) {
             throw new Exception("Status Room Tidak Dapat ditentukan!!");
         }
-        transactionBookingRepository.save(transactionBooking);
-        return transactionBooking;
-    }
-    //Bagian admin
-    public TransactionBooking tb(TransactionBooking transactionBooking) throws Exception{
         Customer customer = customerRepository.findById(transactionBooking.getCustomerId()).orElseThrow(()-> new Exception("Customer Tidak Ditemukan!!"));
         transactionBooking.setCustomer(customer);
         transactionBooking.setRoom(room);

@@ -13,9 +13,9 @@ import java.util.List;
 public interface TransactionBookingRepository extends JpaRepository<TransactionBooking, String> {
     @Query(value = "SELECT \n" +
             "(CASE WHEN b.booking_status <> 2 THEN 'no' ELSE 'yes' END) AS result\n" +
-            "FROM trx_bookings r\n" +
+            "FROM trx_bookings b\n" +
             "WHERE\n" +
-            "b.bookingId = :bookingId \n" +
+            "b.room_id = :roomId \n" +
             "ORDER BY \n" +
             "b.last_update DESC \n" +
             "LIMIT 1",nativeQuery = true)
