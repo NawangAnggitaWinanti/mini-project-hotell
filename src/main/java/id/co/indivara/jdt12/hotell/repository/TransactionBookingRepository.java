@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface TransactionBookingRepository extends JpaRepository<TransactionBooking, String> {
     @Query(value = "SELECT \n" +
-            "(CASE WHEN b.booking_status <> 2 THEN 'no' ELSE 'yes' END) AS result\n" +
+            "(CASE WHEN b.booking_status <> 2 THEN 'no' ELSE 'yes' END) AS result\n" +//dignakan utk mencari booking status
             "FROM trx_bookings b\n" +
             "WHERE\n" +
             "b.room_id = :roomId \n" +
